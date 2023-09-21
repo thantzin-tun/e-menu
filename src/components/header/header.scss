@@ -1,0 +1,17 @@
+// .heading_parallax {
+//   width: 100%;
+//   padding: 0;
+//   margin: 0;
+//   height: 30vh;
+//   background-color: red;
+//   position: relative;
+//   .parallax_image {
+//     height: 100%;
+//   }
+// }
+
+.parallax_image {
+  height: 250px;
+  object-fit: cover;
+  overflow: visible !important;
+}
