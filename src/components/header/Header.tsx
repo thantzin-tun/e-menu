@@ -1,65 +1,51 @@
-import { hambuger, hotel } from "assets";
-import { relative } from "path";
-import React, { useEffect, useRef, useState } from "react";
-import { Parallax } from "react-parallax";
-import { NavLink } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { useThemeStore } from "store";
-import { Card, ImgBackground, InnerCard, Typo } from "theme";
-import "./header.scss";
-import { useScroll, useTransform } from "framer-motion";
+import { CategoryBarCom } from "components/categoryBar";
+import React, { useState, useEffect, memo } from "react";
+import { Typo } from "theme";
+import { useNavigate } from "react-router-dom";
+import { useMenuStore } from "store";
 
-export const Header: React.FC = () => {
-  // const primaryHeaderRef = useRef<any>();
-  // const secondaryHeaderRef = useRef<any>();
+type HeaderProps = {
+  categories: [];
+};
 
-  const ref = useRef<any>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0", "100%"]);
-  const upperCard = useTransform(scrollYProgress, [0, 1], ["0", "100%"]);
-
+export const Header: React.FC<HeaderProps> = memo(({ categories }) => {
   const [isShowSideBar, setIsShowSideBar] = useState<boolean>(false);
+  const { changeCategoryIndex, currentCategoryIndex, changeMenuIndex } =
+    useMenuStore();
+  //Appear Scroll Button
+  const history = useNavigate();
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     var total_scroll_height = document.documentElement.scrollTop;
-  //     var passed_header = total_scroll_height >= 80;
-  //     if (passed_header) {
-  //       secondaryHeaderRef.current.classList.add("header-active");
-  //       primaryHeaderRef.current.setAttribute("style", "opacity: 0;");
-  //     } else {
-  //       secondaryHeaderRef.current.classList.remove("header-active");
-  //       primaryHeaderRef.current.setAttribute("style", "opacity: 1;");
-  //     }
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  console.log("Header component is running now");
+  //Start Scroll to Top
+
+  const choose_category = (i: number) => {
+    changeCategoryIndex(i);
+    changeMenuIndex(0);
+    setIsShowSideBar(false);
+  };
 
   return (
     <>
-      {/* Old Header Style */}
-      {/* <div
-        ref={primaryHeaderRef}
-        className="page-title page-title-fixed"
+      <div
+        className="page-title"
         style={{ borderBottom: "1px solid rgba(0, 0, 0, 0.05)", zIndex: 30 }}
       >
-        <h1 className="font-30 font-700">Restaurant</h1>
-        <a
-          className="page-title-icon shadow-xl bg-theme color-theme"
-          data-menu="menu-main"
-          onClick={() => setIsShowSideBar(!isShowSideBar)}
-        >
-          <i className="fa fa-bars" />
-        </a>
+        <div className="page-title-fixed d-flex justify-content-between">
+          {/* <h1 className="font-30 font-700"></h1> */}
+          <Typo $font_color="primary" $size={26} $weight="lg">
+            Menus
+          </Typo>
+          <a
+            className="page-title-icon shadow-xl bg-theme color-theme"
+            // data-menu="menu-main"
+            onClick={() => setIsShowSideBar(!isShowSideBar)}
+          >
+            <i className="fa fa-bars" />
+          </a>
+        </div>
       </div>
-      <div className="page-title-clear"></div>
+
+      {/* <div className="page-title-clear"></div> */}
       <div
         className={`menu-hider ${isShowSideBar ? "menu-active" : ""}`}
         onClick={() => setIsShowSideBar(false)}
@@ -76,82 +62,34 @@ export const Header: React.FC = () => {
       >
         <div>
           <div className="mt-4" />
-          <h1 className="menu-divider fs-4">Restaurant</h1>
+          <h1 className="menu-divider fs-4">Menus</h1>
           <div className="list-group list-custom-small list-menu">
-            <NavLink
+            <a
               id="nav-welcome"
-              to="/contact"
               className="mb-2"
-              onClick={() => setIsShowSideBar(false)}
+              onClick={() => history("/e-menu", { replace: true })}
             >
-              <i className="fa fa-solid fa-phone gradient-red color-white" />
-              <span className="fs-6 fw-bold">Contact</span>
-              <i className="fa fa-angle-right" />
-            </NavLink>
-
-            <NavLink
-              id="nav-components"
-              to="/menu"
-              className="mb-2"
-              onClick={() => setIsShowSideBar(false)}
-            >
-              <i className="fa fa-bars gradient-blue color-white" />
-              <span className="fs-6 fw-bold">Menu</span>
-              <i className="fa fa-angle-right" />
-            </NavLink>
-          </div>
-          <h6 className="menu-divider mt-4">Settings</h6>
-          <div className="list-group list-custom-small list-menu">
-            <a href="" data-toggle-theme data-trigger-switch="switch-dark-mode">
-              <i className="fa fa-moon gradient-dark color-white" />
-              <span>Dark Mode</span>
-              <div className="custom-control small-switch ios-switch">
-                <input
-                  data-toggle-theme
-                  type="checkbox"
-                  className="ios-input"
-                  id="toggle-dark-menu"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor="toggle-dark-menu"
-                />
-              </div>
+              <i className="fa fa-solid fa-home bg-danger color-white" />
+              <span className="fs-6 fw-bold">Home</span>
+              <i className="fa fa-angle-left" />
             </a>
           </div>
-        </div>
-      </div> */}
-
-      {/* 
-      Shop Address Card */}
-      <Parallax
-        bgImage={hotel}
-        bgImageAlt="shop_address"
-        strength={200}
-        className="parallax_image"
-      ></Parallax>
-      {/* <ImgBackground src={hotel} /> */}
-      <Card className="ms-0 me-0 rounded-0">
-        <InnerCard>
-          <div className="content">
-            <h1>Oishii Sushi - Sayarsab</h1>
-            <div className="list-group list-custom-small">
-              <a href="">
-                <i className="fa font-14 fa-location bg-danger rounded-xl shadow-xl color-white" />
-                <span>Shwegone Daing, Excel Tower</span>
+          <h2 className="menu-divider mt-4">Categories</h2>
+          <div className="list-group list-custom-small list-menu">
+            {categories.map((item: { name: string }, index: number) => (
+              <a onClick={() => choose_category(index)}>
+                <Typo $size={18} $font_color="#000">
+                  {item.name}
+                </Typo>
+                <i className="fa fa-angle-right" />
               </a>
-              <a href="">
-                <i className="fa font-14 fa-phone bg-primary rounded-xl shadow-xl color-white" />
-                <span>09 951591844, 09 983455678</span>
-              </a>
-              <a href="">
-                <i className="fa font-14 fa-utensils bg-success rounded-xl shadow-xl color-white" />
-                <span>Hotel and Restaurant</span>
-              </a>
-            </div>
+            ))}
           </div>
-        </InnerCard>
-      </Card>
+        </div>
+      </div>
+
+      {/* Category Bar */}
+      <CategoryBarCom menu_categories={categories[currentCategoryIndex]} />
     </>
   );
-};
+});

@@ -1,20 +1,16 @@
 import { hambuger } from "assets";
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
-import { Preloader } from "services";
-import { data } from "data";
-import { useMenuStore } from "store";
+import React, { useState, useEffect } from "react";
+import { Preloader, rest_service_operation } from "services";
+import { useApiStore, useMenuStore } from "store";
 import { motion } from "framer-motion";
-import { CardOne, CardTwo, CategoryBarCom, Header } from "components";
-import { Typo } from "theme";
+import { Header, Shop } from "components";
 import { Element, animateScroll as scroll } from "react-scroll";
 
-import { InView, useInView } from "react-intersection-observer";
+import { RepresentMenu } from "./RepresentMenu";
+import { RepresentPopular } from "./RepresentPopular";
+import { useQuery } from "@tanstack/react-query";
+import { menus } from "domains";
+import { Typo } from "theme";
 
 type RepresentMenuProps = {
   data: any;
@@ -35,23 +31,41 @@ type RepresentMenuProps = {
 // };
 
 const MenuPage = () => {
-  const { changeMenuIndex } = useMenuStore();
-  const [detail, setDetail] = useState<any>();
+  const { changeMenuIndex, currentCategoryIndex } = useMenuStore();
+  const { shop_info } = useApiStore();
+  const { data, isLoading, isError } = useQuery(
+    ["menus_items"],
+    () =>
+      rest_service_operation({
+        endPoint: menus,
+      }),
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      retry: 3,
+    }
+  );
+
+  // const [detail, setDetail] = useState<any>();
   const [active, setActive] = useState<boolean>(false);
 
-  //Appear Scroll Button
-  const [top, setTop] = useState<boolean>(false);
+  console.log("Menu Items from Menu Page is  >>>>>>>>>", data);
 
-  //Start Scroll to Top
+  //Header Active and InActive
   useEffect(() => {
     const handleScroll = () => {
       var total_scroll_height = document.documentElement.scrollTop;
-      var passed_header = total_scroll_height >= 900;
-      console.log("Scrool ps is ", total_scroll_height);
-      if (passed_header) {
-        setTop(true);
+      let passed_header: boolean;
+      if (shop_info.display_images[1]?.image == undefined) {
+        passed_header = total_scroll_height >= 200;
       } else {
-        setTop(false);
+        passed_header = total_scroll_height >= 400;
+      }
+      console.log(total_scroll_height);
+      if (passed_header) {
+        setActive(true);
+      } else {
+        setActive(false);
         changeMenuIndex(0);
       }
     };
@@ -61,169 +75,36 @@ const MenuPage = () => {
     };
   }, []);
 
-  const change_indicator_first_category = () => {
-    scroll.scrollToTop();
-    changeMenuIndex(0);
-  };
+  // const change_indicator_first_category = () => {
+  //   scroll.scrollToTop();
+  //   changeMenuIndex(0);
+  // };
 
   //End Scroll to Top
-  const showDetail_func = (menu: any) => {
-    setDetail(menu);
-    setActive(true);
-  };
+  // const showDetail_func = (menu: any) => {
+  //   setDetail(menu);
+  //   setActive(true);
+  // };
 
-  const represent_menu = useMemo(() => {
-    console.log("Represent menu is running");
+  if (isLoading) {
+    return <Preloader />;
+  }
+
+  if (isError) {
     return (
-      //Old Style Loop
-      // <div style={{ marginBottom: "30px" }}>
-      //   {data[1].categories.map((menu: any, index: number) => (
-      //     <Element
-      //       className="card card-style mt-4"
-      //       name={menu.name}
-      //       key={index}
-      //     >
-      //       <motion.div style={{ width: "100%", paddingInline: "15px" }}>
-      //         <Typo $size="22" $weight={700} $font_color="red" className="mb-2">
-      //           {menu.name}
-      //         </Typo>
-      //       </motion.div>
-
-      //       {menu.items.map(
-      //         (menuItem: { name: string; instances: any }, index: number) => {
-      //           return (
-      //             <>
-      //               <motion.div
-      //                 key={index}
-      //                 whileInView="visible"
-      //                 initial="hidden"
-      //                 variants={variants}
-      //                 exit="exit"
-      //                 custom={index}
-      //                 viewport={{ once: true }}
-      //                 onClick={() => showDetail_func(menuItem)}
-      //               >
-      //                 <div className="content mb-0">
-      //                   <div className="row justify-content-center">
-      //                     <div className="col-5 pe-0">
-      //                       <img
-      //                         src={hambuger}
-      //                         alt="menu"
-      //                         className="rounded"
-      //                         style={{ width: "100%", height: "auto" }}
-      //                       />
-      //                     </div>
-      //                     <div className="col-6 offset-1 d-flex flex-column text-start gap-1">
-      //                       <Typo $font_color="footerBackColor" $size="20">
-      //                         {menuItem.name}
-      //                       </Typo>
-      //                       <Typo $font_color="footerBackColor" $size="14">
-      //                         1 portion
-      //                       </Typo>
-      //                       <Typo $font_color="red" $size="16">
-      //                         MMK {menuItem.instances[0].price}
-      //                       </Typo>
-      //                     </div>
-      //                   </div>
-      //                 </div>
-      //               </motion.div>
-      //               <div
-      //                 className="divider bg-dark divider-margins"
-      //                 key={menuItem.name}
-      //               ></div>
-      //             </>
-      //           );
-      //         }
-      //       )}
-      //     </Element>
-      //   ))}
-      // </div>
-      <>
-        {data[1].categories.map((menu: any, index: number) => (
-          <div className="row" key={index}>
-            <div className="col-12 mb-2">
-              <Typo $font_color="primary" $weight="lg" $size={24}>
-                {menu.name}
-              </Typo>
-            </div>
-            <div className="col-12">
-              <Element name={menu.name}>
-                {menu.items.map(
-                  (
-                    menuItem: { name: string; instances: any },
-                    index: number
-                  ) => {
-                    return (
-                      <>
-                        <CardTwo
-                          img={hambuger}
-                          price={menuItem.instances[0].price}
-                          menu_name={menu.name}
-                          lang="Kane Myint Rice Fired"
-                          index={index}
-                        />
-                        <div className="divider" key={index}></div>
-                      </>
-                    );
-                  }
-                )}
-              </Element>
-            </div>
-          </div>
-        ))}
-      </>
+      <Typo $size={28} $weight="600" $font_color="primary">
+        Sorry!. Try again...
+      </Typo>
     );
-  }, [data[1]]);
-
-  const represent_popular = useMemo(() => {
-    console.log("Represent popular is running");
-    return (
-      <div className="row mb-5">
-        <div className="col-12 mb-3">
-          <Typo $font_color="primary" $weight="lg">
-            Popular
-          </Typo>
-        </div>
-        <div className="col-6 mb-2">
-          <CardOne
-            img={hambuger}
-            menu_name="ကုန့်းမြင့်သာထမင်းကြော်"
-            price={15000}
-          />
-        </div>
-        <div className="col-6 mb-2">
-          <CardOne
-            img={hambuger}
-            menu_name="ကုန့်းမြင့်သာထမင်းကြော်"
-            price={15000}
-          />
-        </div>
-        <div className="col-6 mb-2">
-          <CardOne
-            img={hambuger}
-            menu_name="ကုန့်းမြင့်သာထမင်းကြော်"
-            price={15000}
-          />
-        </div>
-        <div className="col-6 mb-2">
-          <CardOne
-            img={hambuger}
-            menu_name="Chicken Noddle Fired"
-            price={15000}
-          />
-        </div>
-      </div>
-    );
-  }, [data[1]]);
+  }
 
   return (
     <>
-      <Header />
-      {top ? <CategoryBarCom /> : null}
+      {active ? <Header categories={data} /> : null}
+      <Shop />
 
-      <div className="page-content">
-        {/* Scroll To Top Button */}
-        {/* <div
+      {/* Scroll To Top Button */}
+      {/* <div
         className={`content my_animation_appear ${top ? "" : "opacity-0"}`}
         style={{ position: "fixed", bottom: "5%", right: "3%", zIndex: 99 }}
       >
@@ -235,8 +116,8 @@ const MenuPage = () => {
         </a>
       </div> */}
 
-        <div className="container">
-          {/* <div className="row mb-0">
+      <div className="container" style={{ transform: "translateY(-50px)" }}>
+        {/* <div className="row mb-0">
           <h1>Popular</h1>
           <div className="col-6 pe-0">
             <div className="card card-style">
@@ -262,9 +143,13 @@ const MenuPage = () => {
           </div>
         </div> */}
 
-          {represent_popular}
-          {represent_menu}
-          {/* <div
+        {/* {represent_menu} */}
+
+        <RepresentPopular popular={data[currentCategoryIndex].categories[0]} />
+        <RepresentMenu menu_items={data[currentCategoryIndex].categories} />
+
+        {/* {handel_loop} */}
+        {/* <div
           className={`menu-hider ${active ? "menu-active" : ""}`}
           onClick={() => setActive(false)}
         ></div>
@@ -303,7 +188,6 @@ const MenuPage = () => {
             </div>
           </div>
         </div> */}
-        </div>
       </div>
     </>
   );

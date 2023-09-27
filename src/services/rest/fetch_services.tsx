@@ -1,6 +1,6 @@
 //Only call get method various initial source route
 import useSWR, { mutate } from "swr";
-import { delete_method, post_method, product, put_method } from "domains";
+import { delete_method, post_method, put_method } from "domains";
 import { rest_service_operation } from "./rest_services";
 
 interface FetchingProps {
@@ -27,20 +27,20 @@ export const FetchApi = ({ endPoint }: FetchingProps) => {
   };
 };
 
-//Remove Server Data
-export const remove = async (id: number) => {
-  await rest_service_operation(id, product, delete_method);
-  mutate(`${url}${product}`);
-};
+// //Remove Server Data
+// export const remove = async (id: number) => {
+//   await rest_service_operation(id, product, delete_method);
+//   mutate(`${url}${product}`);
+// };
 
-//Add Server Data
-export const add = async (data: any) => {
-  await rest_service_operation("", product, post_method, data);
-  mutate(`${url}${product}`);
-};
+// //Add Server Data
+// export const add = async (data: any) => {
+//   await rest_service_operation("", product, post_method, data);
+//   mutate(`${url}${product}`);
+// };
 
-//Update Server Data
-export const update = async (id: number, data: any) => {
-  await rest_service_operation(id, product, put_method, data);
-  mutate(`${url}${product}`);
-};
+// //Update Server Data
+// export const update = async (id: number, data: any) => {
+//   await rest_service_operation(id, product, put_method, data);
+//   mutate(`${url}${product}`);
+// };

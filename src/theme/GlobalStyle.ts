@@ -3,7 +3,7 @@ export const GlobalStyle = createGlobalStyle`
 * {
   
     body {
-        font-family: Jost;
+        font-family: Roboto;
     }
 
     a[class*="active"] {

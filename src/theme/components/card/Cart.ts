@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+
 interface CardProps {
   className?: string;
   img?: string;
@@ -18,7 +19,12 @@ export const Card = styled(motion.div)<CardProps>`
   object-fit: cover;
   position: relative;
   z-index: 5;
-  transform: translateY(-50px);
+  /* transform: translateY(-80px); */
+  transform: translateY(${(props) => (props.img ? "-80px" : "0")});
+  padding-top: ${(props) => (props.img ? "0px" : "20px")};
+  margin-bottom: ${(props) => (props.img ? "0px" : "100px")};
+
+  /* transform: translateY(130px); */
 `;
 
 export const InnerCard = styled(motion.div)`
@@ -30,6 +36,21 @@ export const InnerCard = styled(motion.div)`
   border: none;
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1);
   z-index: 10;
+
+  .information {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 7px;
+    .icon-container {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 `;
 
 export const ImgBackground = styled(motion.img)`

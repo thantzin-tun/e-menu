@@ -1,10 +1,31 @@
 import { hambuger } from "assets";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { rest_service_operation } from "services";
+import { get_method, menus } from "domains";
+import axios from "axios";
 
-export const CartCom = () => {
+const Cart = () => {
+  const { data, isLoading, error } = useQuery(["menus"], () =>
+    rest_service_operation({ endPoint: menus, method: get_method })
+  );
+
+  console.log("Response data is ", data);
+
+  // const fetch = async () => {
+  //   let response = await axios.get("http://localhost:3000/api/restaurant/menu");
+  //   let data = await response.data;
+  //   console.log("Api response data is", data);
+  // };
+
+  // useEffect(() => {
+  //   fetch();
+  // }, []);
+
   return (
     <>
-      <div className="page-content">
+      This is card page
+      {/* <div className="page-content">
         <div className="card card-style mb-2">
           <div className="content">
             <div className="d-flex">
@@ -172,7 +193,9 @@ export const CartCom = () => {
           Proceed to Checkout
         </a>
         <div data-menu-load="menu-footer.html" />
-      </div>
+      </div> */}
     </>
   );
 };
+
+export default Cart;

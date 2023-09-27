@@ -9,18 +9,18 @@ export const CardDesignTwoStyle = styled(motion.div)<CardDesignTwoStyleProps>`
   height: fit-content;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   padding-block: ${({ isImg }) => (isImg ? 10 : 15)}px;
 `;
 
 export const CardImgTwo = styled.img`
-  width: 30%;
+  width: 25%;
   border-radius: 10px;
 `;
 
-export const CardBodyTwo = styled.div`
+export const CardBodyTwo = styled.div<CardDesignTwoStyleProps>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: 10px;
+  margin-left: ${({ isImg }) => (isImg ? 10 : 0)}px;
 `;

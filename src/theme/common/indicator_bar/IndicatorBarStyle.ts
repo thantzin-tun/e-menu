@@ -5,6 +5,6 @@ export const Indicator = styled(motion.div)`
   position: absolute;
   bottom: 0;
   background-color: #000;
-  height: 5px;
+  height: 4px;
   border-radius: 4px;
 `;

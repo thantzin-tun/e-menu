@@ -10,9 +10,9 @@ export const CategoryBarStyle = styled.div<CategoryBarStyleProps>`
   width: 100%;
   /* height: 30px; */
   margin-top: 0;
-  padding: 20px 20px 20px 20px;
+  padding: 15px 20px 15px 20px;
   position: fixed;
-  top: 0;
+  top: 50px;
   /* bottom: 0; */
   /* top: 65px; */
   /* position: sticky;

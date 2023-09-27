@@ -1,13 +1,13 @@
-import { post_method } from "domains";
+import { get_method } from "domains";
 import domainUrl from "domains/url";
 import queryString from "query-string";
 
-const routeFilter = (obj: any) => {
+export const routeFilter = (obj: any) => {
   let paramObject = queryString.stringify(obj, { sort: false });
   return `?${paramObject}`;
 };
 
-const handel_endPoint = (params: any, endPoint: string) => {
+export const handel_endPoint = (params: any, endPoint: string) => {
   let routeEndPoint: string;
   if (typeof params == "number" || typeof params == "string") {
     routeEndPoint = `${endPoint}/${params}`;
@@ -20,12 +20,17 @@ const handel_endPoint = (params: any, endPoint: string) => {
   return routeEndPoint;
 };
 
-export const rest_service_operation = async (
-  params: any,
-  endPoint: string,
-  method: string,
-  data: any = {}
-) => {
+export const rest_service_operation = async ({
+  params = "",
+  endPoint,
+  method = get_method,
+  data = {},
+}: {
+  params?: string | number | {};
+  endPoint: string;
+  method?: string;
+  data?: any;
+}) => {
   let router_filter: string = handel_endPoint(params, endPoint);
   try {
     let responseData = await domainUrl(router_filter, {
@@ -33,7 +38,7 @@ export const rest_service_operation = async (
       data: data,
     });
     console.log("Response is ", responseData.data);
-    return "success";
+    return responseData.data;
   } catch (err) {
     throw err;
   }

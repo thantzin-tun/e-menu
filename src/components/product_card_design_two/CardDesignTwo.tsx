@@ -1,4 +1,4 @@
-import { hambuger } from "assets";
+import { food_placeholder, hambuger } from "assets";
 import React from "react";
 import { CardBodyTwo, CardDesignTwoStyle, CardImgTwo, Typo } from "theme";
 
@@ -33,17 +33,9 @@ export const CardTwo: React.FC<CardTwoProps> = ({
 }) => {
   const formattedPrice = typeof price === "string" ? parseInt(price) : price;
   return (
-    <CardDesignTwoStyle
-      isImg={img == "" ? false : true}
-      // whileInView="visible"
-      // initial="hidden"
-      // variants={variants}
-      // exit="exit"
-      // custom={index}
-      // viewport={{ once: true }}
-    >
-      {img == "" ? null : <CardImgTwo src={hambuger} />}
-      <CardBodyTwo>
+    <CardDesignTwoStyle isImg={img == "" ? false : true}>
+      {img == "" ? null : <CardImgTwo src={img} />}
+      <CardBodyTwo isImg={img == "" ? false : true}>
         <Typo $font_color="primary" $size={16} $weight="lg">
           {menu_name}
         </Typo>
@@ -55,7 +47,7 @@ export const CardTwo: React.FC<CardTwoProps> = ({
           )}
         </div>
         <Typo $font_color="primary" $size={16} $weight="md">
-          {formattedPrice.toFixed(0)} ကျပ်
+          {formattedPrice.toFixed(0)}
         </Typo>
       </CardBodyTwo>
     </CardDesignTwoStyle>

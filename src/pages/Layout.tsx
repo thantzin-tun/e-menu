@@ -1,4 +1,4 @@
-import { Footer, Header } from "components";
+import { Footer } from "components";
 import React, { startTransition } from "react";
 import { Outlet } from "react-router-dom";
 

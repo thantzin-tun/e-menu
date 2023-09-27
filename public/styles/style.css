@@ -84,7 +84,8 @@ body {
   /* overflow-x: hidden; */
   /* transition: all 300ms ease; */
   z-index: 5 !important;
-  transform: translateY(-40px);
+  /* transform: translateY(-70px); */
+  /* transform: translateY(100px); */
   /* transform: translateY(180px); */ /* padding-top: 50px; */
   /* padding-bottom: 50px; */
   /* padding-top: 0px; */
@@ -102,9 +103,37 @@ body {
 }
 
 /*Content Boxes*/
+
 .content {
   margin: 20px 15px 20px 15px;
 }
+.content_custom {
+  margin-block: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Roboto" !important;
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255) !important;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+    rgba(0, 0, 0, 0.05) 0px 1px 1px 0px !important;
+  /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset !important; */
+}
+
+/* Custom CSS for HomePage Category Card */
+.content .multiple_menu_choose_bar {
+  position: fixed;
+  width: 100%;
+}
+
+.multiple_menu_list {
+  margin-top: 40px;
+  height: 300px;
+  overflow-y: scroll;
+}
+
 .content p:last-child {
   margin-bottom: 0px;
 }
@@ -1503,12 +1532,17 @@ body {
 
 /*Page Titles*/
 .page-title {
-  display: flex;
-  transition: all 300ms ease;
+  /* transition: all 300ms ease; */
+  background-color: #fff !important;
   /* margin-top: 23px;  original code*/
-  padding-top: 23px !important;
-  margin-bottom: 30px;
-  background-color: #eef2f1;
+  /* padding-top: 0px !important; */
+  /* margin-bottom: 30px; */
+  /* padding-block: 7px !important;
+  padding-inline: 12px; */
+
+  position: fixed;
+  left: 0px;
+  right: 0px;
 }
 .page-title h1 {
   margin-right: auto;
@@ -1528,10 +1562,11 @@ body {
 }
 
 .page-title-fixed {
+  width: 100%;
   display: flex;
-  position: fixed;
-  left: 0px;
-  right: 0px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px !important;
 }
 
 .page-title-over {
@@ -1547,11 +1582,11 @@ body {
 }
 
 .page-title-icon {
-  float: left;
+  /* float: left; */
   z-index: 2;
   height: 38px;
   width: 38px;
-  margin-right: 13.3333333333px;
+  /* margin-right: 13.3333333333px; */
   line-height: 39px;
   border-radius: 16px;
   text-align: center;
@@ -2146,7 +2181,7 @@ body {
 }
 
 .list-menu {
-  font-family: "Inter", sans-serif;
+  /* font-family: "Inter", sans-serif; */
   margin: 0px 25px 0px 10px;
 }
 
@@ -2186,9 +2221,10 @@ body {
 }
 
 .list-menu span {
-  font-weight: 500;
+  font-weight: 600;
   padding-left: 7px;
-  color: #7e8793;
+  width: 100%;
+  /* color: #7e8793; */
 }
 
 .list-menu .active-nav span {
@@ -3527,10 +3563,11 @@ button {
 
 .card-style {
   overflow: hidden;
-  margin: 0px 15px 10px 15px;
-  padding-block: 15px;
+  /* margin: 0px 15px 10px 15px; */
+  padding: 15px;
   border-radius: 20px;
   border: none;
+  background-color: transparent;
   /* box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1); */
 }
 .card-style .card-body {
@@ -4914,9 +4951,9 @@ input[type="number"] {
 }
 
 /*List Groups*/
-.list-custom-small {
+/* .list-custom-small {
   line-height: 50px;
-}
+} */
 .list-custom-small .badge {
   position: absolute;
   right: 15px;

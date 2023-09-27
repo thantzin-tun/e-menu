@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Aos from "aos";
 import { RoutingPath } from "routes";
 
-import { Footer, Header } from "components";
+import { Footer } from "components";
 import { useThemeStore } from "store";
 import { pageRoutes } from "routes/config";
 

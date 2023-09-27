@@ -24,7 +24,7 @@ export const CardOne: React.FC<CardOneProps> = ({
         </Typo>
         <div className="my-2"></div>
         <Typo $font_color="primary" $size={16} $weight="md" $marginBlock={10}>
-          {price} ကျပ်
+          {Number(price).toFixed(0)}
         </Typo>
       </CardBody>
     </CardDesignOneStyle>
